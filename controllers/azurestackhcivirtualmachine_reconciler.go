@@ -205,13 +205,14 @@ func (s *azureStackHCIVirtualMachineService) createVirtualMachine(nicName string
 		vmSpec = &virtualmachines.Spec{
 			Name:       s.vmScope.Name(),
 			NICName:    nicName,
-			SSHKeyData: string(decoded),
+			SSHKeyData: []string{string(decoded)},
 			Size:       s.vmScope.AzureStackHCIVirtualMachine.Spec.VMSize,
 			OSDisk:     s.vmScope.AzureStackHCIVirtualMachine.Spec.OSDisk,
 			Image:      s.vmScope.AzureStackHCIVirtualMachine.Spec.Image,
 			CustomData: *s.vmScope.AzureStackHCIVirtualMachine.Spec.BootstrapData,
 			Zone:       vmZone,
 			VMType:     vmType,
+			//AdditionalSSHKeys: s.vmScope.AzureStackHCIVirtualMachine.Spec.AdditionalSSHKeys,
 		}
 
 		err = s.virtualMachinesSvc.Reconcile(s.vmScope.Context, vmSpec)
